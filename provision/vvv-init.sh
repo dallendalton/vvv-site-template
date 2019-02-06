@@ -55,11 +55,12 @@ else
 fi
 
 # Install and configure the requested version of WooCommerce
-  if [ "${WC_VERSION}" = "latest" ]; then
-    noroot wp plugin install woocommerce --force --activate
-  else
-    noroot wp plugin install woocommerce --force --activate --version="${WC_VERSION}"
-  fi
+echo -e "\nInstalling WooCommerce Version '${WC_VERSION}'"
+if [ "${WC_VERSION}" = "latest" ]; then
+  noroot wp plugin install woocommerce --force --activate
+else
+  noroot wp plugin install woocommerce --force --activate --version="${WC_VERSION}"
+fi
   
 
 cp -f "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf.tmpl" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
