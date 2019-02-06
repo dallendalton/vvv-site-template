@@ -69,7 +69,7 @@ echo -e "\nInstalling TaxJar From '${TJ_GIT_URL}'"
 cd ${VVV_PATH_TO_SITE}/public_html/wp-content/plugins
 git clone ${TJ_GIT_URL}
 git checkout ${TJ_BRANCH}
-wp plugin activate taxjar
+noroot wp plugin activate taxjar
 
 cp -f "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf.tmpl" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
 sed -i "s##${DOMAINS}#" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
