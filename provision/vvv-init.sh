@@ -6,6 +6,8 @@ DOMAINS=`get_hosts "${DOMAIN}"`
 SITE_TITLE=`get_config_value 'site_title' "${DOMAIN}"`
 WP_VERSION=`get_config_value 'wp_version' 'latest'`
 WC_VERSION=`get_config_value 'wc_version' 'latest'`
+TJ_GIT_URL=`get_config_value 'tj_git_url' 'https://github.com/taxjar/taxjar-woocommerce-plugin.git'`
+TJ_BRANCH=`get_config_value 'tj_branch' 'master'`
 WP_TYPE=`get_config_value 'wp_type' "single"`
 DB_NAME=`get_config_value 'db_name' "${VVV_SITE_NAME}"`
 DB_NAME=${DB_NAME//[\\\/\.\<\>\:\"\'\|\?\!\*-]/}
@@ -62,6 +64,12 @@ else
   noroot wp plugin install woocommerce --force --activate --version="${WC_VERSION}"
 fi
   
+# Clone, checkout from branch and activate taxjar from requested repo
+echo -e "\nInstalling TaxJar From '${TJ_GIT_URL}'"
+cd ${VVV_PATH_TO_SITE}/public_html/wp-content/plugins
+git clone ${TJ_GIT_URL}
+git checkout ${TJ_BRANCH}
+wp plugin activate taxjar
 
 cp -f "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf.tmpl" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
 sed -i "s##${DOMAINS}#" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
