@@ -57,19 +57,24 @@ else
 fi
 
 # Install and configure the requested version of WooCommerce
-echo -e "\nInstalling WooCommerce Version '${WC_VERSION}'"
-if [ "${WC_VERSION}" = "latest" ]; then
-  noroot wp plugin install woocommerce --force --activate
-else
-  noroot wp plugin install woocommerce --force --activate --version="${WC_VERSION}"
+if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/woocommerce/woocommerce.php" ]]; then
+  echo -e "\nInstalling WooCommerce Version '${WC_VERSION}'"
+  if [ "${WC_VERSION}" = "latest" ]; then
+    noroot wp plugin install woocommerce --force --activate
+  else
+    noroot wp plugin install woocommerce --force --activate --version="${WC_VERSION}"
+  fi
 fi
   
 # Clone, checkout from branch and activate taxjar from requested repo
-echo -e "\nInstalling TaxJar From '${TJ_GIT_URL}'"
-cd ${VVV_PATH_TO_SITE}/public_html/wp-content/plugins
-git clone ${TJ_GIT_URL}
-git checkout ${TJ_BRANCH}
-noroot wp plugin activate taxjar
+if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/taxjar-woocommerce-plugin/taxjar-woocommerce.php" ]]; then
+  echo -e "\nInstalling TaxJar From '${TJ_GIT_URL}'"
+  cd ${VVV_PATH_TO_SITE}/public_html/wp-content/plugins
+  git clone ${TJ_GIT_URL}
+  cd ${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/taxjar-woocommerce-plugin
+  git checkout ${TJ_BRANCH}
+  noroot wp plugin activate taxjar
+fi
 
 cp -f "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf.tmpl" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
 sed -i "s##${DOMAINS}#" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
