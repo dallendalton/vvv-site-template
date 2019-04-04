@@ -82,7 +82,8 @@ if [ "${INSTALL_WOOCOMMERCE_SUBSCRIPTIONS}" = "true" ]; then
   echo -e "\nAttempting to install WooCommerce Substriptions from local zip file"
   if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/woocommerce-subscriptions/woocommerce-subscriptions.php" ]]; then
 	if [[ -f "/vagrant/plugins/woocommerce-subscriptions.zip" ]]; then
-	  noroot wp plugin install /vagrant/plugins/woocommerce-subscriptions
+	  cd ${VVV_PATH_TO_SITE}/public_html/wp-content/plugins
+	  noroot wp plugin install /vagrant/plugins/woocommerce-subscriptions.zip
 	  noroot wp plugin activate woocommerce-subscriptions
 	else
 	  echo -e "\nNo plugin file found in /vagrant/plugins/"
