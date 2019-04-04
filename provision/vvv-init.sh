@@ -78,6 +78,7 @@ if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/taxjar-woocommerc
 fi
 
 # Install WooCommerce Subscriptions
+echo -e "\nChecking if woo subscriptions should be installed"
 if [ "${INSTALL_WOOCOMMERCE_SUBSCRIPTIONS}" = "true" ]; then
   echo -e "\nAttempting to install WooCommerce Substriptions from local zip file"
   if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/woocommerce-subscriptions/woocommerce-subscriptions.php" ]]; then
@@ -91,6 +92,8 @@ if [ "${INSTALL_WOOCOMMERCE_SUBSCRIPTIONS}" = "true" ]; then
   else
     echo -e "\nWooCommerce Subscriptions already installed"
   fi
+else
+  echo -e "\nWoo Subscriptions does not need to be installed"
 fi
 
 cp -f "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf.tmpl" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
