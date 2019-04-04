@@ -73,7 +73,7 @@ if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/taxjar-woocommerc
   git clone ${TJ_GIT_URL}
   cd ${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/taxjar-woocommerce-plugin
   git checkout ${TJ_BRANCH}
-  noroot wp plugin activate taxjar
+  noroot wp plugin activate taxjar-woocommerce-plugin
 fi
 
 cp -f "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf.tmpl" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
