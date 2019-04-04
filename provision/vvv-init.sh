@@ -8,6 +8,7 @@ WP_VERSION=`get_config_value 'wp_version' 'latest'`
 WC_VERSION=`get_config_value 'wc_version' 'latest'`
 TJ_GIT_URL=`get_config_value 'tj_git_url' 'https://github.com/taxjar/taxjar-woocommerce-plugin.git'`
 TJ_BRANCH=`get_config_value 'tj_branch' 'master'`
+INSTALL_WOOCOMMERCE_SUBSCRIPTIONS=`get_config_value 'install_woocommerce_subscriptions' 'false'`
 WP_TYPE=`get_config_value 'wp_type' "single"`
 DB_NAME=`get_config_value 'db_name' "${VVV_SITE_NAME}"`
 DB_NAME=${DB_NAME//[\\\/\.\<\>\:\"\'\|\?\!\*-]/}
@@ -74,6 +75,21 @@ if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/taxjar-woocommerc
   cd ${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/taxjar-woocommerce-plugin
   git checkout ${TJ_BRANCH}
   noroot wp plugin activate taxjar-woocommerce-plugin
+fi
+
+# Install WooCommerce Subscriptions
+if [ "${INSTALL_WOOCOMMERCE_SUBSCRIPTIONS}" = "true" ]; then
+  echo -e "\nAttempting to install WooCommerce Substriptions from local zip file"
+  if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/woocommerce-subscriptions/woocommerce-subscriptions.php" ]]; then
+	if [[ -f "/vagrant/plugins/woocommerce-subscriptions.zip" ]]; then
+	  noroot wp plugin install /vagrant/plugins/woocommerce-subscriptions
+	  noroot wp plugin activate woocommerce-subscriptions
+	else
+	  echo -e "\nNo plugin file found in /vagrant/plugins/"
+	fi
+  else
+	echo -e "\nWooCommerce Subscriptions already installed"
+  fi
 fi
 
 cp -f "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf.tmpl" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
