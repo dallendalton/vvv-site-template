@@ -120,7 +120,7 @@ if [ "${INITIAL_INSTALL}" = true ]; then
     noroot wp core install --url="${DOMAIN}" --quiet --title="${SITE_TITLE}" --admin_name=admin --admin_email="admin@local.test" --admin_password="password"
     
     # Handle activation of plugins if DB only is missing
-    wp plugin activate --all
+    noroot wp plugin activate --all
   fi
   
   noroot wp option update permalink_structure "/%postname%/"
