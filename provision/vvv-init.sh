@@ -12,11 +12,13 @@ INSTALL_WOOCOMMERCE_SUBSCRIPTIONS=`get_config_value 'install_woocommerce_subscri
 WP_TYPE=`get_config_value 'wp_type' "single"`
 DB_NAME=`get_config_value 'db_name' "${VVV_SITE_NAME}"`
 DB_NAME=${DB_NAME//[\\\/\.\<\>\:\"\'\|\?\!\*-]/}
+INITIAL_INSTALL=false
 
 # Make a database, if we don't already have one
 echo -e "\nCreating database '${DB_NAME}' (if it's not already there)"
 mysql -u root --password=root -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME}"
 mysql -u root --password=root -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO wp@localhost IDENTIFIED BY 'wp';"
+INITIAL_INSTALL=true
 echo -e "\n DB operations done.\n\n"
 
 # Nginx Logs
@@ -107,6 +109,29 @@ if [ "${INSTALL_WOOCOMMERCE_SUBSCRIPTIONS}" = "true" ]; then
   fi
 else
   echo -e "\nWoo Subscriptions does not need to be installed"
+fi
+
+# Configure WooCommerce by updating DB
+if [ "${INITIAL_INSTALL}" = true ]; then
+  noroot wp option update permalink_structure "/%postname%/"
+  noroot wp option update woocommmerce_store_address "1 East Main Street"
+  noroot wp option update woocommerce_store_city "Payson"
+  noroot wp option update woocommerce_default_country "US:UT"
+  noroot wp option update woocommerce_store_postcode "84651"
+  noroot wp option update woocommerce_currency "USD"
+  noroot wp option update woocommerce_cheque_settings '{"enabled": "yes"}' --format=json
+  
+  CART_PAGE_ID=`wp post create --post_title='Cart' --post_type='page' --porcelain`
+  CHECKOUT_PAGE_ID=`wp post create --post_title='Checkout' --post_type='page' --porcelain`
+  ACCOUNT_PAGE_ID=`wp post create --post_title='My account' --post_type='page' --porcelain`
+  SHOP_PAGE_ID=`wp post create --post_title='Shop' --post_type='page' --porcelain`
+  
+  noroot wp option update woocommerce_cart_page_id "${CART_PAGE_ID}"
+  noroot wp option update woocommerce_myaccount_page_id "${CHECKOUT_PAGE_ID}"
+  noroot wp option update woocommerce_myaccount_page_id "${ACCOUNT_PAGE_ID}"
+  noroot wp option update woocommerce_shop_page_id "${SHOP_PAGE_ID}"
+  
+  wp wc product create --name='Simple Product' --sku='simple-product' --regular_price=10.00 --user=1
 fi
 
 cp -f "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf.tmpl" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
