@@ -66,6 +66,13 @@ if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/woocommerce/wooco
     noroot wp plugin install woocommerce --force --activate --version="${WC_VERSION}"
   fi
 fi
+
+# Install and activate Storefront
+if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-content/themes/storefront/functions.php" ]]; then
+  echo -e "\nInstalling Storefront theme"
+  noroot wp theme install storefront
+  noroot wp theme activate storefront
+fi
   
 # Clone, checkout from branch and activate taxjar from requested repo
 # Install unit tests
