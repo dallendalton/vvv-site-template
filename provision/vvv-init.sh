@@ -78,9 +78,9 @@ if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/taxjar-woocommerc
   noroot wp plugin activate taxjar-woocommerce-plugin
   export WP_TESTS_DIR="${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/taxjar-woocommerce-plugin/tmp/wordpress-tests-lib/"
   cd ${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/taxjar-woocommerce-plugin/tests/bin/
-  ./install.sh wordpressone root root
+  noroot ./install.sh wordpressone root root
   cd ${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/taxjar-woocommerce-plugin/
-  composer install
+  noroot composer install
 fi
 
 # Install WooCommerce Subscriptions
