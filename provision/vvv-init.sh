@@ -122,6 +122,10 @@ if [ "${INITIAL_INSTALL}" = true ]; then
     # Handle activation of plugins if DB only is missing
 	noroot wp plugin activate woocommerce
     noroot wp plugin activate --all
+    
+    # Activate theme when only db is missing
+    noroot wp theme activate storefront
+    
   fi
   
   noroot wp option update permalink_structure "/%postname%/"
