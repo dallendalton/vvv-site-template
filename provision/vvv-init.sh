@@ -113,6 +113,11 @@ fi
 
 # Configure WooCommerce by updating DB
 if [ "${INITIAL_INSTALL}" = true ]; then
+
+  if ! $(noroot wp core is-installed); then
+    noroot wp core ${INSTALL_COMMAND} --url="${DOMAIN}" --quiet --title="${SITE_TITLE}" --admin_name=admin --admin_email="admin@local.test" --admin_password="password"
+  fi
+  
   noroot wp option update permalink_structure "/%postname%/"
   noroot wp option update woocommmerce_store_address "1 East Main Street"
   noroot wp option update woocommerce_store_city "Payson"
@@ -121,17 +126,17 @@ if [ "${INITIAL_INSTALL}" = true ]; then
   noroot wp option update woocommerce_currency "USD"
   noroot wp option update woocommerce_cheque_settings '{"enabled": "yes"}' --format=json
   
-  CART_PAGE_ID=`wp post create --post_title='Cart' --post_type='page' --porcelain`
-  CHECKOUT_PAGE_ID=`wp post create --post_title='Checkout' --post_type='page' --porcelain`
-  ACCOUNT_PAGE_ID=`wp post create --post_title='My account' --post_type='page' --porcelain`
-  SHOP_PAGE_ID=`wp post create --post_title='Shop' --post_type='page' --porcelain`
+  CART_PAGE_ID=`noroot wp post create --post_title='Cart' --post_type='page' --porcelain`
+  CHECKOUT_PAGE_ID=`noroot wp post create --post_title='Checkout' --post_type='page' --porcelain`
+  ACCOUNT_PAGE_ID=`noroot wp post create --post_title='My account' --post_type='page' --porcelain`
+  SHOP_PAGE_ID=`noroot wp post create --post_title='Shop' --post_type='page' --porcelain`
   
   noroot wp option update woocommerce_cart_page_id "${CART_PAGE_ID}"
   noroot wp option update woocommerce_myaccount_page_id "${CHECKOUT_PAGE_ID}"
   noroot wp option update woocommerce_myaccount_page_id "${ACCOUNT_PAGE_ID}"
   noroot wp option update woocommerce_shop_page_id "${SHOP_PAGE_ID}"
   
-  wp wc product create --name='Simple Product' --sku='simple-product' --regular_price=10.00 --user=1
+  noroot wp wc product create --name='Simple Product' --sku='simple-product' --regular_price=10.00 --user=1
 fi
 
 cp -f "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf.tmpl" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
