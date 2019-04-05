@@ -114,8 +114,10 @@ fi
 # Configure WooCommerce by updating DB
 if [ "${INITIAL_INSTALL}" = true ]; then
 
+  cd ${VVV_PATH_TO_SITE}/public_html/wp-content/plugins
+
   if ! $(noroot wp core is-installed); then
-    noroot wp core ${INSTALL_COMMAND} --url="${DOMAIN}" --quiet --title="${SITE_TITLE}" --admin_name=admin --admin_email="admin@local.test" --admin_password="password"
+    noroot wp core install --url="${DOMAIN}" --quiet --title="${SITE_TITLE}" --admin_name=admin --admin_email="admin@local.test" --admin_password="password"
   fi
   
   noroot wp option update permalink_structure "/%postname%/"
