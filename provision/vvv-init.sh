@@ -136,10 +136,10 @@ if [ "${INITIAL_INSTALL}" = true ]; then
   noroot wp option update woocommerce_currency "USD"
   noroot wp option update woocommerce_cheque_settings '{"enabled": "yes"}' --format=json
   
-  CART_PAGE_ID=`noroot wp post create --post_title='Cart' --post_type='page' --porcelain`
-  CHECKOUT_PAGE_ID=`noroot wp post create --post_title='Checkout' --post_type='page' --porcelain`
-  ACCOUNT_PAGE_ID=`noroot wp post create --post_title='My account' --post_type='page' --porcelain`
-  SHOP_PAGE_ID=`noroot wp post create --post_title='Shop' --post_type='page' --porcelain`
+  CART_PAGE_ID=`noroot wp post create --post_title='Cart' --post_type='page' --post_status='publish' --porcelain`
+  CHECKOUT_PAGE_ID=`noroot wp post create --post_title='Checkout' --post_type='page' --post_status='publish' --porcelain`
+  ACCOUNT_PAGE_ID=`noroot wp post create --post_title='My account' --post_type='page' --post_status='publish' --porcelain`
+  SHOP_PAGE_ID=`noroot wp post create --post_title='Shop' --post_type='page' --post_status='publish' --porcelain`
   
   noroot wp option update woocommerce_cart_page_id "${CART_PAGE_ID}"
   noroot wp option update woocommerce_myaccount_page_id "${CHECKOUT_PAGE_ID}"
