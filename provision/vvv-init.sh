@@ -86,6 +86,7 @@ if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/taxjar-woocommerc
   git checkout ${TJ_BRANCH}
   noroot wp plugin activate taxjar-woocommerce-plugin
   export WP_TESTS_DIR="${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/taxjar-woocommerce-plugin/tmp/wordpress-tests-lib/"
+  export WP_CORE_DIR="${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/taxjar-woocommerce-plugin/tmp/wordpress/"
   cd ${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/taxjar-woocommerce-plugin/tests/bin/
   noroot ./install.sh wordpressone root root
   cd ${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/taxjar-woocommerce-plugin/
