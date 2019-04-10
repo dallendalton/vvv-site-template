@@ -18,7 +18,6 @@ INITIAL_INSTALL=false
 echo -e "\nCreating database '${DB_NAME}' (if it's not already there)"
 mysql -u root --password=root -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME}"
 mysql -u root --password=root -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO wp@localhost IDENTIFIED BY 'wp';"
-INITIAL_INSTALL=true
 echo -e "\n DB operations done.\n\n"
 
 # Nginx Logs
@@ -42,6 +41,7 @@ PHP
 fi
 
 if ! $(noroot wp core is-installed); then
+  INITIAL_INSTALL=true
   echo "Installing WordPress Stable..."
 
   if [ "${WP_TYPE}" = "subdomain" ]; then
