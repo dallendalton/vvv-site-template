@@ -65,7 +65,7 @@ if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-content/plugins/woocommerce/wooco
   if [ "${WC_VERSION}" = "latest" ]; then
     noroot wp plugin install woocommerce --force --activate
   elif [ "${WC_VERSION}" = "2.6" ]; then
-    noroot wp plugin install /vagrant/plugins/woocommerce-subscriptions.zip --force --activate
+    noroot wp plugin install /vagrant/plugins/woocommerce/2.6/woocommerce-2.6.0.zip --force --activate
   else
     noroot wp plugin install woocommerce --force --activate --version="${WC_VERSION}"
   fi
